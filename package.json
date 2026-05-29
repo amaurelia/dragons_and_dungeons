@@ -1,0 +1,19 @@
+{
+  "name": "dragons_and_dungeons",
+  "version": "1.0.0",
+  "description": "es un proyecto de juego con api rest y html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amaurelia/dragons_and_dungeons.git"
+  },
+  "author": "Alvaro Maurelia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amaurelia/dragons_and_dungeons/issues"
+  },
+  "homepage": "https://github.com/amaurelia/dragons_and_dungeons#readme"
+}
