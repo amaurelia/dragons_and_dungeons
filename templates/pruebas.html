@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Pruebas</title>
+    <link rel="stylesheet" type="text/css" href="/css/estilos_prueba.css">
+</head>
+<body>
+    <h1>Pruebas</h1>
+    <p>Esta es una página de pruebas para verificar que el servidor está funcionando correctamente.</p>
+
+    <div id="habilidades-container">
+        <h2>Habilidades <button>GET</button>/app/habilidades</h2>
+        <ul id="habilidades-list"></ul>
+    </div>
+
+
+    <script>
+        fetch('/app/habilidades') 
+            .then(response => response.json())
+            .then(habilidades => {
+                console.log('Habilidades:', habilidades);
+                const habilidadesList = document.getElementById('habilidades-list');
+                habilidades.forEach(habilidad => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = habilidad.nombre + " (" + habilidad.descripcion + ")"; // Ajusta esto según el nombre de la propiedad de la habilidad
+                    habilidadesList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener habilidades:', error);
+            });
+    </script>
+
+</body>
+</html>
+

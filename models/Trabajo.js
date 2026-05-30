@@ -2,11 +2,11 @@
 const secuelize = require('../config/database');
 const { DataTypes } = require('sequelize');
 
-// Definir el modelo de Habilidad
-const Habilidad = secuelize.define(
-    'habilidades', 
+// Definir el modelo de Trabajo
+const Trabajo = secuelize.define(
+    'trabajos', 
     {
-        id_habilidad: {
+        id_trabajo: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
@@ -19,25 +19,25 @@ const Habilidad = secuelize.define(
             type: DataTypes.TEXT,
             allowNull: true
         },
-        cura: {
+        atk_por_nivel: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        daño: {
+        hp_por_nivel: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        coste: {
+        mp_por_nivel: {
             type: DataTypes.INTEGER,
             allowNull: false
         }
     },
     {
-        tableName: 'habilidades',
+        tableName: 'trabajos',
         freezeTableName: true,
         timestamps: true
     }
 );
 
 // Permite exportar el modelo para usarlo en otros archivos
-module.exports = Habilidad;
+module.exports = Trabajo;

@@ -1,19 +1,40 @@
 
 // variables y constantes iniciales
 const express = require('express');
+const path = require('path');
 const sequelize = require('./config/database');
 const {Habilidad, Trabajo, Personaje} = require('./models/index');
+const habilidadesRoutes = require('./endpoints/habilidades');
 const app = express();
 const port = 4500;
 const routes = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/', routes);   
+
+// rura del CRUD de habilidades
+app.use('/app', habilidadesRoutes);
 
 // mis funciones
 async function crearTablas() { // función para crear las tablas en la base de datos
     try{
-        await sequelize.sync({ force: true });
+        const resetDB = process.env.DB_FORCE_SYNC === 'true';
+        const actualizarEsquema = process.env.DB_ALTER_SYNC === 'true';
+
+        const opcionesSync = resetDB
+            ? { force: true }
+            : (actualizarEsquema ? { alter: true } : {});
+
+        await sequelize.sync(opcionesSync);
+
+        if (resetDB) {
+            console.log('Sincronización con force:true (tablas recreadas).');
+        } else if (actualizarEsquema) {
+            console.log('Sincronización con alter:true (esquema actualizado sin recrear tablas).');
+        } else {
+            console.log('Sincronización segura (sin cambios de esquema automáticos).');
+        }
         console.log('Tablas creadas correctamente.');
     }
     catch (error) {
@@ -27,57 +48,16 @@ async function iniciarServidor() { // función para iniciar el servidor
     });
 }
 
-// mis endpoints por sequelize
-app.get('/habilidades', async (req, res) => {
-    try {
-        const habilidades = await Habilidad.findAll();
-        res.status(200).json(habilidades);
-    } catch (error) {
-        console.error('Error al obtener habilidades:', error);
-        res.status(500).json({ error: 'Error al obtener habilidades' });
-    }
+// las páginas web
+routes.get('/', (req, res) => {
+    res.sendFile(__dirname + '/templates/pruebas.html');
 });
-
-app.post('/habilidades', async (req, res) => {
-    try {
-        const nuevaHabilidad = await Habilidad.create(req.body);
-        res.status(201).json(nuevaHabilidad);
-    } catch (error) {
-        console.error('Error al crear habilidad:', error);
-        res.status(500).json({ error: 'Error al crear habilidad' });
-    }
-});
-
-app.put('/habilidades/:id', async (req, res) => {
-    try {
-        const habilidad = await Habilidad.findByPk(req.params.id);
-        if (!habilidad) {
-            return res.status(404).json({ error: 'Habilidad no encontrada' });
-        }
-        await habilidad.update(req.body);
-        res.status(200).json(habilidad);
-    } catch (error) {
-        console.error('Error al actualizar habilidad:', error);
-        res.status(500).json({ error: 'Error al actualizar habilidad' });
-    }
-});
-
-app.delete('/habilidades/:id', async (req, res) => {
-    try {
-        const habilidad = await Habilidad.findByPk(req.params.id);
-        if (!habilidad) {
-            return res.status(404).json({ error: 'Habilidad no encontrada' });
-        }
-        await habilidad.destroy();
-        res.status(200).json({ message: 'Habilidad eliminada correctamente' });
-    } catch (error) {
-        console.error('Error al eliminar habilidad:', error);
-        res.status(500).json({ error: 'Error al eliminar habilidad' });
-    }
-});
-
 
 // se ejecuta el código
-iniciarServidor();
-crearTablas()
+async function iniciarApp() {
+    await crearTablas();
+    await iniciarServidor();
+}
+
+iniciarApp();
 
