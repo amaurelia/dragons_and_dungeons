@@ -4,7 +4,8 @@
   "description": "es un proyecto de juego con api rest y html",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/amaurelia/dragons_and_dungeons/issues"
   },
-  "homepage": "https://github.com/amaurelia/dragons_and_dungeons#readme"
+  "homepage": "https://github.com/amaurelia/dragons_and_dungeons#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.22.4",
+    "sequelize": "^6.37.8"
+  }
 }
