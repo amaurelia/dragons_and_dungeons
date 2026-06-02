@@ -5,6 +5,8 @@ const path = require('path');
 const sequelize = require('./config/database');
 const {Habilidad, Trabajo, Personaje} = require('./models/index');
 const habilidadesRoutes = require('./endpoints/habilidades');
+const trabajosRoutes = require('./endpoints/trabajos');
+const personajesRoutes = require('./endpoints/personajes');
 const app = express();
 const port = 4500;
 const routes = express.Router();
@@ -15,6 +17,8 @@ app.use('/', routes);
 
 // rura del CRUD de habilidades
 app.use('/app', habilidadesRoutes);
+app.use('/app', trabajosRoutes);
+app.use('/app', personajesRoutes);
 
 // mis funciones
 async function crearTablas() { // función para crear las tablas en la base de datos

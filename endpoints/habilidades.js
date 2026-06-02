@@ -13,6 +13,19 @@ router.get('/habilidades', async (req, res) => {
     }
 });
 
+router.get('/habilidades/:id', async (req, res) => {
+    try {
+        const habilidad = await Habilidad.findByPk(req.params.id);
+        if (!habilidad) {
+            return res.status(404).json({ error: 'Habilidad no encontrada' });
+        }
+        res.status(200).json(habilidad);
+    } catch (error) {
+        console.error('Error al obtener habilidad:', error);
+        res.status(500).json({ error: 'Error al obtener habilidad' });
+    }
+});
+
 router.post('/habilidades', async (req, res) => {
     try {
         const nuevaHabilidad = await Habilidad.create(req.body);
