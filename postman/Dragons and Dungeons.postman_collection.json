@@ -1,0 +1,389 @@
+{
+  "info": {
+    "_postman_id": "8a9ac46c-7864-4c51-951e-a662b82ad608",
+    "name": "Dragons and Dungeons",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8014659",
+    "_collection_link": "https://go.postman.co/collection/8014659-8a9ac46c-7864-4c51-951e-a662b82ad608?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Habilidades",
+      "item": [
+        {
+          "name": "Obtener habilidades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/habilidades",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "habilidades"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener habilidad por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/habilidades/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "habilidades",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear nueva habilidad",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"nombre\": \"nadar\",\r\n\t\"descripcion\": \"puedes cruzar un río nadando\",\r\n\t\"cura\": 0,\r\n\t\"daño\": 0,\r\n\t\"coste\": 15\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4500/app/habilidades",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "habilidades"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar una habilidad",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"nombre\": \"vender\",\r\n        \"descripcion\": \"vende un objeto\",\r\n        \"cura\": 0,\r\n        \"daño\": 0,\r\n        \"coste\": 1,\r\n        \"createdAt\": \"2026-05-30T01:24:06.000Z\",\r\n        \"updatedAt\": \"2026-05-30T01:24:06.000Z\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4500/app/habilidades/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "habilidades",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar una habilidad",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/habilidades/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "habilidades",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Trabajos",
+      "item": [
+        {
+          "name": "Obtener trabajos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/trabajos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "trabajos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener trabajo por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/trabajos/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "trabajos",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear nuevo trabajo",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"nombre\": \"Paladín\",\r\n\t\"descripcion\": \"Son los soldados que defienden a sus amigos\",\r\n\t\"atk_por_nivel\": 6,\r\n\t\"hp_por_nivel\": 10,\r\n\t\"mp_por_nivel\": 4\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4500/app/trabajos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "trabajos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar un trabajos",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"nombre\": \"Paladín\",\r\n\t\"descripcion\": \"Son los soldados que defienden a sus amigos\",\r\n\t\"atk_por_nivel\": 5,\r\n\t\"hp_por_nivel\": 10,\r\n\t\"mp_por_nivel\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4500/app/trabajos/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "trabajos",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar un trabajo",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/trabajos/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "trabajos",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Personajes",
+      "item": [
+        {
+          "name": "Obtener personajes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/personajes",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "personajes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener personaje por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/personajes/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "personajes",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear nuevo personaje",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"nombre\": \"Alvaro\",\r\n\t\"titulo\": \"Destgructor de arañas\",\r\n\t\"nivel\": 5,\r\n\t\"id_trabajo\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4500/app/personajes",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "personajes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar un personaje",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"nombre\": \"Alvaro\",\r\n\t\"titulo\": \"Destructor de arañas\",\r\n\t\"nivel\": 5,\r\n\t\"id_trabajo\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4500/app/personajes/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "personajes",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar un personajes",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4500/app/personajes/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4500",
+              "path": [
+                "app",
+                "personajes",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
