@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/amaurelia/dragons_and_dungeons#readme",
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mysql2": "^3.22.4",
     "sequelize": "^6.37.8"

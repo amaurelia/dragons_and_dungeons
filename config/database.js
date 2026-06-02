@@ -1,14 +1,15 @@
 
-// importar Sequelize
+// importar Sequelize y dotenv
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-// credenciales para la base de datos
+// credenciales para la base de datos (se leen desde el archivo .env)
 const sequelize = new Sequelize(
-    'dragons_and_dungeons', 
-    'root',
-    '',
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
     {
-        host: 'localhost',
+        host: process.env.DB_HOST,
         dialect: 'mysql'
     }
 );

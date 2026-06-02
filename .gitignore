@@ -1,2 +1,5 @@
 # no agreges mis dependencias del node modules
 node_modules/
+
+# variables de entorno (contienen contraseñas, nunca subir al repositorio)
+.env
