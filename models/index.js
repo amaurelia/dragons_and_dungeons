@@ -10,15 +10,19 @@ Trabajo.hasOne(
 );
 
 // relación entre trabajo y habilidad
-Habilidad.belongsToMany(
-    Trabajo, { 
+Trabajo.belongsToMany(
+    Habilidad, { 
+        as: 'habilidades',
         foreignKey: 'id_trabajo',
+        otherKey: 'id_habilidad',
         through: 'trabajos_habilidades',
     }
 );
-Trabajo.belongsToMany(
-    Habilidad, { 
+Habilidad.belongsToMany(
+    Trabajo, { 
+        as: 'trabajos',
         foreignKey: 'id_habilidad',
+        otherKey: 'id_trabajo',
         through: 'trabajos_habilidades',
     }
 );

@@ -7,9 +7,23 @@
     <h1>Pruebas</h1>
     <p>Esta es una página de pruebas para verificar que el servidor está funcionando correctamente.</p>
 
-    <div id="habilidades-container">
+    <div id="habilidades-container" class="fondo_blanco">
         <h2>Habilidades <button>GET</button>/app/habilidades</h2>
         <ul id="habilidades-list"></ul>
+    </div>
+
+    <br>
+
+    <div id="trabajos-container" class="fondo_blanco">
+        <h2>Trabajos <button>GET</button>/app/trabajos</h2>
+        <ul id="trabajos-list"></ul>
+    </div>
+
+     <br>
+
+    <div id="personajes-container" class="fondo_blanco">
+        <h2>Personajes <button>GET</button>/app/personajes</h2>
+        <ul id="personajes-list"></ul>
     </div>
 
 
@@ -27,6 +41,36 @@
             })
             .catch(error => {
                 console.error('Error al obtener habilidades:', error);
+            });
+
+        fetch('/app/trabajos') 
+            .then(response => response.json())
+            .then(trabajos => {
+                console.log('Trabajos:', trabajos);
+                const trabajosList = document.getElementById('trabajos-list');
+                trabajos.forEach(trabajo => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = trabajo.nombre + " (" + trabajo.descripcion + ")"; // Ajusta esto según el nombre de la propiedad del trabajo
+                    trabajosList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener trabajos:', error);
+            });
+
+        fetch('/app/personajes') 
+            .then(response => response.json())
+            .then(personajes => {
+                console.log('Personajes:', personajes);
+                const personajesList = document.getElementById('personajes-list');
+                personajes.forEach(personaje => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = personaje.nombre + " (" + personaje.titulo + ")"; // Ajusta esto según el nombre de la propiedad del personaje
+                    personajesList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener personajes:', error);
             });
     </script>
 

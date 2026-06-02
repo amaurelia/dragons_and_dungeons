@@ -7,6 +7,7 @@ const {Habilidad, Trabajo, Personaje} = require('./models/index');
 const habilidadesRoutes = require('./endpoints/habilidades');
 const trabajosRoutes = require('./endpoints/trabajos');
 const personajesRoutes = require('./endpoints/personajes');
+const trabajosHabilidadesRoutes = require('./endpoints/trabajos-habilidades');
 const app = express();
 const port = 4500;
 const routes = express.Router();
@@ -15,10 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/', routes);   
 
-// rura del CRUD de habilidades
+// ruta del CRUD de habilidades
 app.use('/app', habilidadesRoutes);
 app.use('/app', trabajosRoutes);
 app.use('/app', personajesRoutes);
+app.use('/app', trabajosHabilidadesRoutes);
 
 // mis funciones
 async function crearTablas() { // función para crear las tablas en la base de datos
@@ -53,7 +55,7 @@ async function iniciarServidor() { // función para iniciar el servidor
 }
 
 // las páginas web
-routes.get('/', (req, res) => {
+routes.get('/pruebas', (req, res) => {
     res.sendFile(__dirname + '/templates/pruebas.html');
 });
 
