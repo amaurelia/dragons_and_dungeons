@@ -1,9 +1,9 @@
 body {
-    background-color: rgb(213, 157, 168)!important;
+    background-color: rgb(240, 183, 193);
 }
 
 .fondo_blanco {
-    margin: 20px;
+    /*margin: 20px;*/
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;

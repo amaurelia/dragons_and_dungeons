@@ -2,11 +2,11 @@
 const secuelize = require('../config/database');
 const { DataTypes } = require('sequelize');
 
-// Definir el modelo de Personaje
-const Personaje = secuelize.define(
-    'personajes', 
+// Definir el modelo de Objeto
+const Objeto = secuelize.define(
+    'objetos', 
     {
-        id_personaje: {
+        id_objeto: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
@@ -15,29 +15,29 @@ const Personaje = secuelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        titulo: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        avatar: {
-            type: DataTypes.STRING,
+        descripcion: {
+            type: DataTypes.TEXT,
             allowNull: true
         },
-        nivel: {
+        cura: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        dinero: {
+        hace_daño: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        precio: {
             type: DataTypes.INTEGER,
             allowNull: false
         }
     },
     {
-        tableName: 'personajes',
+        tableName: 'objetos',
         freezeTableName: true,
         timestamps: true
     }
 );
 
 // Permite exportar el modelo para usarlo en otros archivos
-module.exports = Personaje;
+module.exports = Objeto;

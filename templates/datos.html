@@ -1,0 +1,249 @@
+<html>
+<head>
+    <title>Datos</title>
+    <link rel="stylesheet" href="/css/estilos_datos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Datos</h1>
+        <p>Esta es una página de datos para crear información relevante sobre el juego.</p>
+        <button type="button" class="btn btn-primary mb-4" onclick="mostrarPersonajes()">Personajes</button>
+        <button type="button" class="btn btn-secondary mb-4" onclick="mostrarTrabajos()">Trabajos</button>
+        <button type="button" class="btn btn-success mb-4" onclick="mostrarHabilidades()">Habilidades</button>
+        <button type="button" class="btn btn-danger mb-4" onclick="mostrarObjetos()">Objetos</button>
+        <button type="button" class="btn btn-warning mb-4" onclick="mostrarEnemigos()">Enemigos</button>
+
+        <div id="personajes-container" class="fondo_blanco" style="display: none;">
+            <h1>Personajes</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Avatar</th>
+                        <th>Nombre</th>
+                        <th>Título</th>
+                        <th>Nivel</th>
+                        <th>Dinero</th>
+                    </tr>
+                </thead>
+                <tbody id="personajes-table-body">
+                    <!-- Aquí se llenarán los datos de los personajes -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="trabajos-container" class="fondo_blanco" style="display: none;">
+            <h1>Trabajos</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody id="trabajos-table-body">
+                    <!-- Aquí se llenarán los datos de los trabajos -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="habilidades-container" class="fondo_blanco" style="display: none;">
+            <h1>Habilidades</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody id="habilidades-table-body">
+                    <!-- Aquí se llenarán los datos de las habilidades -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="objetos-container" class="fondo_blanco" style="display: none;">
+            <h1>Objetos</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="objetos-table-body">
+                    <!-- Aquí se llenarán los datos de los objetos -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="enemigos-container" class="fondo_blanco" style="display: none;">
+            <h1>Enemigos</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>HP</th>
+                        <th>Ataque</th>
+                    </tr>
+                </thead>
+                <tbody id="enemigos-table-body">
+                    <!-- Aquí se llenarán los datos de los enemigos -->
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+
+    <script>
+
+        fetch('/app/personajes') 
+            .then(response => response.json())
+            .then(personajes => {
+                console.log('Personajes:', personajes);
+                const personajesTableBody = document.getElementById('personajes-table-body');
+                personajes.forEach(personaje => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${personaje.id_personaje}</td>
+                        <td><img src="/img/avatar_${personaje.avatar}.png" alt="Avatar" width="50" height="50"></td>
+                        <td>${personaje.nombre}</td>
+                        <td>${personaje.titulo}</td>
+                        <td>${personaje.nivel}</td>
+                        <td>${personaje.dinero}</td>
+                    `;
+                    personajesTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener personajes:', error);
+            });
+        
+        fetch('/app/trabajos') 
+            .then(response => response.json())
+            .then(trabajos => {
+                console.log('Trabajos:', trabajos);
+                const trabajosTableBody = document.getElementById('trabajos-table-body');
+                trabajos.forEach(trabajo => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${trabajo.id_trabajo}</td>
+                        <td>${trabajo.nombre}</td>
+                        <td>${trabajo.descripcion}</td>
+                    `;
+                    trabajosTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener trabajos:', error);
+            });
+
+        fetch('/app/habilidades') 
+            .then(response => response.json())
+            .then(habilidades => {
+                console.log('Habilidades:', habilidades);
+                const habilidadesTableBody = document.getElementById('habilidades-table-body');
+                habilidades.forEach(habilidad => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${habilidad.id_habilidad}</td>
+                        <td>${habilidad.nombre}</td>
+                        <td>${habilidad.descripcion}</td>
+                    `;
+                    habilidadesTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener habilidades:', error);
+            });
+        
+        fetch('/app/objetos') 
+            .then(response => response.json())
+            .then(objetos => {
+                console.log('Objetos:', objetos);
+                const objetosTableBody = document.getElementById('objetos-table-body');
+                objetos.forEach(objeto => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${objeto.id_objeto}</td>
+                        <td>${objeto.nombre}</td>
+                        <td>${objeto.descripcion}</td>
+                        <td>${objeto.precio}</td>
+                    `;
+                    objetosTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener objetos:', error);
+            });
+
+        fetch('/app/enemigos') 
+            .then(response => response.json())
+            .then(enemigos => {
+                console.log('Enemigos:', enemigos);
+                const enemigosTableBody = document.getElementById('enemigos-table-body');
+                enemigos.forEach(enemigo => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${enemigo.id_enemigo}</td>
+                        <td>${enemigo.nombre}</td>
+                        <td>${enemigo.hp}</td>
+                        <td>${enemigo.ataque}</td>
+                    `;
+                    enemigosTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener enemigos:', error);
+            });
+
+        function mostrarPersonajes() {
+            document.getElementById('personajes-container').style.display = 'block';
+            document.getElementById('trabajos-container').style.display = 'none';
+            document.getElementById('habilidades-container').style.display = 'none';
+            document.getElementById('objetos-container').style.display = 'none';
+            document.getElementById('enemigos-container').style.display = 'none';
+        }
+
+        function mostrarTrabajos() {
+            document.getElementById('personajes-container').style.display = 'none';
+            document.getElementById('trabajos-container').style.display = 'block';
+            document.getElementById('habilidades-container').style.display = 'none';
+            document.getElementById('objetos-container').style.display = 'none';
+            document.getElementById('enemigos-container').style.display = 'none';
+        }
+
+        function mostrarHabilidades() {
+            document.getElementById('personajes-container').style.display = 'none';
+            document.getElementById('trabajos-container').style.display = 'none';
+            document.getElementById('habilidades-container').style.display = 'block';
+            document.getElementById('objetos-container').style.display = 'none';
+            document.getElementById('enemigos-container').style.display = 'none';
+        }
+
+        function mostrarObjetos() {
+            document.getElementById('personajes-container').style.display = 'none';
+            document.getElementById('trabajos-container').style.display = 'none';
+            document.getElementById('habilidades-container').style.display = 'none';
+            document.getElementById('objetos-container').style.display = 'block';
+            document.getElementById('enemigos-container').style.display = 'none';
+        }
+
+        function mostrarEnemigos() {
+            document.getElementById('personajes-container').style.display = 'none';
+            document.getElementById('trabajos-container').style.display = 'none';
+            document.getElementById('habilidades-container').style.display = 'none';
+            document.getElementById('objetos-container').style.display = 'none';
+            document.getElementById('enemigos-container').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

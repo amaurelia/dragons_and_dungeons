@@ -8,12 +8,17 @@ const habilidadesRoutes = require('./endpoints/habilidades');
 const trabajosRoutes = require('./endpoints/trabajos');
 const personajesRoutes = require('./endpoints/personajes');
 const trabajosHabilidadesRoutes = require('./endpoints/trabajos-habilidades');
+const personajesObjetosRoutes = require('./endpoints/personajes-objetos');
+const objetosRoutes = require('./endpoints/objetos');
+const enemigosRoutes = require('./endpoints/enemigos');
 const app = express();
 const port = 4500;
 const routes = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/img', express.static(path.join(__dirname, 'img')));
+app.use('/img', express.static(path.join(__dirname, 'img', 'avatares')));
 app.use('/', routes);   
 
 // ruta del CRUD de habilidades
@@ -21,6 +26,9 @@ app.use('/app', habilidadesRoutes);
 app.use('/app', trabajosRoutes);
 app.use('/app', personajesRoutes);
 app.use('/app', trabajosHabilidadesRoutes);
+app.use('/app', personajesObjetosRoutes);
+app.use('/app', objetosRoutes);
+app.use('/app', enemigosRoutes);
 
 // mis funciones
 async function crearTablas() { // función para crear las tablas en la base de datos
@@ -57,6 +65,10 @@ async function iniciarServidor() { // función para iniciar el servidor
 // las páginas web
 routes.get('/pruebas', (req, res) => {
     res.sendFile(__dirname + '/templates/pruebas.html');
+});
+
+routes.get('/datos', (req, res) => {
+    res.sendFile(__dirname + '/templates/datos.html');
 });
 
 // se ejecuta el código
