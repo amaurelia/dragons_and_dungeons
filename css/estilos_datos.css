@@ -9,3 +9,8 @@ body {
     border-radius: 5px;
     background-color: #fff;
 }
+
+.flex {
+    display: flex;
+    margin-left: 20px;
+}

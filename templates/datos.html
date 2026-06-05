@@ -9,11 +9,22 @@
     <div class="container">
         <h1>Datos</h1>
         <p>Esta es una página de datos para crear información relevante sobre el juego.</p>
+
+        <form id="upload-form" class="flex" enctype="multipart/form-data">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="file" required multiple>
+                <label class="custom-file-label" for="customFile"></label>
+            </div>
+            <button type="submit" class="btn btn-info">Subir las imágenes</button>
+        </form>
+        <div id="upload-mensaje" class="mt-2"></div>
+
         <button type="button" class="btn btn-primary mb-4" onclick="mostrarPersonajes()">Personajes</button>
         <button type="button" class="btn btn-secondary mb-4" onclick="mostrarTrabajos()">Trabajos</button>
         <button type="button" class="btn btn-success mb-4" onclick="mostrarHabilidades()">Habilidades</button>
         <button type="button" class="btn btn-danger mb-4" onclick="mostrarObjetos()">Objetos</button>
         <button type="button" class="btn btn-warning mb-4" onclick="mostrarEnemigos()">Enemigos</button>
+        <button type="button" class="btn btn-dark mb-4" onclick="mostrarAvatares()">Avatares</button>
 
         <div id="personajes-container" class="fondo_blanco" style="display: none;">
             <h1>Personajes</h1>
@@ -99,10 +110,56 @@
                 </tbody>
             </table>
         </div>
+
+        <div id="avatares-container" class="fondo_blanco" style="display: none;">
+            <h1>Avatares</h1>
+            <div id="avatares-grid" class="d-flex flex-wrap gap-3 mt-3">
+                <!-- Aquí se llenarán las imágenes de avatares -->
+            </div>
+        </div>
+
+        <div id="avatares-container" class="fondo_blanco" style="display: none;">
+            <h1>Avatares</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Imagen</th>
+                    </tr>
+                </thead>
+                <tbody id="avatares-table-body">
+                    <!-- Aquí se llenarán los datos de los avatares -->
+                </tbody>
+            </table>
+        </div>
     
     </div>
 
     <script>
+
+        // ----- Subida de avatares sin cambiar de página -----
+        document.getElementById('upload-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // evita que el formulario navegue a otra página
+
+            const mensajeDiv = document.getElementById('upload-mensaje');
+            const datos = new FormData(this);
+
+            mensajeDiv.innerHTML = '<span class="text-info">Subiendo...</span>';
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: datos
+                });
+                const resultado = await response.json();
+                mensajeDiv.innerHTML = `<span class="text-success">${resultado.mensaje}</span>`;
+            } catch (error) {
+                mensajeDiv.innerHTML = '<span class="text-danger">Error al subir el archivo.</span>';
+            }
+
+            this.reset();
+        });
 
         fetch('/app/personajes') 
             .then(response => response.json())
@@ -210,6 +267,7 @@
             document.getElementById('habilidades-container').style.display = 'none';
             document.getElementById('objetos-container').style.display = 'none';
             document.getElementById('enemigos-container').style.display = 'none';
+            document.getElementById('avatares-container').style.display = 'none';
         }
 
         function mostrarTrabajos() {
@@ -218,6 +276,7 @@
             document.getElementById('habilidades-container').style.display = 'none';
             document.getElementById('objetos-container').style.display = 'none';
             document.getElementById('enemigos-container').style.display = 'none';
+            document.getElementById('avatares-container').style.display = 'none';
         }
 
         function mostrarHabilidades() {
@@ -226,6 +285,7 @@
             document.getElementById('habilidades-container').style.display = 'block';
             document.getElementById('objetos-container').style.display = 'none';
             document.getElementById('enemigos-container').style.display = 'none';
+            document.getElementById('avatares-container').style.display = 'none';
         }
 
         function mostrarObjetos() {
@@ -234,6 +294,7 @@
             document.getElementById('habilidades-container').style.display = 'none';
             document.getElementById('objetos-container').style.display = 'block';
             document.getElementById('enemigos-container').style.display = 'none';
+            document.getElementById('avatares-container').style.display = 'none';
         }
 
         function mostrarEnemigos() {
@@ -242,6 +303,40 @@
             document.getElementById('habilidades-container').style.display = 'none';
             document.getElementById('objetos-container').style.display = 'none';
             document.getElementById('enemigos-container').style.display = 'block';
+            document.getElementById('avatares-container').style.display = 'none';
+        }
+
+        function mostrarAvatares() {
+            document.getElementById('personajes-container').style.display = 'none';
+            document.getElementById('trabajos-container').style.display = 'none';
+            document.getElementById('habilidades-container').style.display = 'none';
+            document.getElementById('objetos-container').style.display = 'none';
+            document.getElementById('enemigos-container').style.display = 'none';
+            document.getElementById('avatares-container').style.display = 'block';
+
+            fetch('/app/avatares')
+                .then(response => response.json())
+                .then(imagenes => {
+                    const grid = document.getElementById('avatares-grid');
+                    grid.innerHTML = '';
+                    if (imagenes.length === 0) {
+                        grid.innerHTML = '<p>No hay avatares guardados.</p>';
+                        return;
+                    }
+                    imagenes.forEach(nombre => {
+                        const div = document.createElement('div');
+                        div.classList.add('text-center');
+                        div.innerHTML = `
+                            <img src="/img/avatares/${nombre}" alt="${nombre}" width="80" height="80"
+                                 style="border-radius: 12px; object-fit: cover;">
+                            <br><small>${nombre}</small>
+                        `;
+                        grid.appendChild(div);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener avatares:', error);
+                });
         }
     </script>
 
