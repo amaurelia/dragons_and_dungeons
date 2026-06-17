@@ -2,12 +2,14 @@
 <head>
     <title>Datos</title>
     <link rel="stylesheet" href="/css/estilos_datos.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
     <div class="container">
-        <h1>Datos</h1>
+        <h1>Datos <i class="bi bi-bookmark-plus-fill"></i></h1>
         <p>Esta es una página de datos para crear información relevante sobre el juego.</p>
 
         <form id="upload-form" class="flex" enctype="multipart/form-data">
@@ -19,15 +21,15 @@
         </form>
         <div id="upload-mensaje" class="mt-2"></div>
 
-        <button type="button" class="btn btn-primary mb-4" onclick="mostrarPersonajes()">Personajes</button>
-        <button type="button" class="btn btn-secondary mb-4" onclick="mostrarTrabajos()">Trabajos</button>
-        <button type="button" class="btn btn-success mb-4" onclick="mostrarHabilidades()">Habilidades</button>
-        <button type="button" class="btn btn-danger mb-4" onclick="mostrarObjetos()">Objetos</button>
-        <button type="button" class="btn btn-warning mb-4" onclick="mostrarEnemigos()">Enemigos</button>
-        <button type="button" class="btn btn-dark mb-4" onclick="mostrarAvatares()">Avatares</button>
+        <button type="button" class="btn btn-primary mb-4" onclick="mostrarPersonajes()">Personajes <i class="bi bi-plus-square-fill"></i></button>
+        <button type="button" class="btn btn-secondary mb-4" onclick="mostrarTrabajos()">Trabajos <i class="bi bi-briefcase-fill"></i></button>
+        <button type="button" class="btn btn-success mb-4" onclick="mostrarHabilidades()">Habilidades <i class="bi bi-star-fill"></i></button>
+        <button type="button" class="btn btn-danger mb-4" onclick="mostrarObjetos()">Objetos <i class="bi bi-shield-shaded"></i></button>
+        <button type="button" class="btn btn-warning mb-4" onclick="mostrarEnemigos()">Enemigos <i class="bi bi-emoji-angry-fill"></i></button>
+        <button type="button" class="btn btn-dark mb-4" onclick="mostrarAvatares()">Avatares <i class="bi bi-person-video"></i></button>
 
         <div id="personajes-container" class="fondo_blanco" style="display: none;">
-            <h1>Personajes</h1>
+            <h1>Personajes <i class="bi bi-plus-square-fill" data-bs-toggle="modal" data-bs-target="#myModal"></i></h1>
             <table class="table">
                 <thead>
                     <tr>
@@ -43,10 +45,13 @@
                     <!-- Aquí se llenarán los datos de los personajes -->
                 </tbody>
             </table>
+            <ul id="personajes-pagination" class="pagination">
+
+            </ul>
         </div>
 
         <div id="trabajos-container" class="fondo_blanco" style="display: none;">
-            <h1>Trabajos</h1>
+            <h1>Trabajos <i class="bi bi-briefcase-fill"></i></h1>
             <table class="table">
                 <thead>
                     <tr>
@@ -62,7 +67,7 @@
         </div>
 
         <div id="habilidades-container" class="fondo_blanco" style="display: none;">
-            <h1>Habilidades</h1>
+            <h1>Habilidades <i class="bi bi-star-fill"></i></h1>
             <table class="table">
                 <thead>
                     <tr>
@@ -78,7 +83,7 @@
         </div>
 
         <div id="objetos-container" class="fondo_blanco" style="display: none;">
-            <h1>Objetos</h1>
+            <h1>Objetos <i class="bi bi-shield-shaded"></i></h1>
             <table class="table">
                 <thead>
                     <tr>
@@ -95,7 +100,7 @@
         </div>
 
         <div id="enemigos-container" class="fondo_blanco" style="display: none;">
-            <h1>Enemigos</h1>
+            <h1>Enemigos <i class="bi bi-emoji-angry-fill"></i></h1>
             <table class="table">
                 <thead>
                     <tr>
@@ -112,14 +117,14 @@
         </div>
 
         <div id="avatares-container" class="fondo_blanco" style="display: none;">
-            <h1>Avatares</h1>
+            <h1>Avatares <i class="bi bi-person-video"></i></h1>
             <div id="avatares-grid" class="d-flex flex-wrap gap-3 mt-3">
                 <!-- Aquí se llenarán las imágenes de avatares -->
             </div>
         </div>
 
         <div id="avatares-container" class="fondo_blanco" style="display: none;">
-            <h1>Avatares</h1>
+            <h1>Avatares <i class="bi bi-person-video"></i></h1>
             <table class="table">
                 <thead>
                     <tr>
@@ -136,7 +141,246 @@
     
     </div>
 
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Creación de nuevo personaje</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div id="mensaje-error" class="mb-3"></div>
+            <form action="/action_page.php">
+                <div class="mb-3 mt-3">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Enter nombre" name="nombre">
+                    <div id="error-nombre" class="text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título:</label>
+                    <input type="text" class="form-control" id="titulo" placeholder="Enter título" name="titulo">
+                    <div id="error-titulo" class="text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="nivel" class="form-label">Nivel:</label>
+                    <input type="number" class="form-control" id="nivel" placeholder="Enter nivel" name="nivel">
+                    <div id="error-nivel" class="text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="dinero" class="form-label">Dinero:</label>
+                    <input type="number" class="form-control" id="dinero" placeholder="Enter dinero" name="dinero">
+                    <div id="error-dinero" class="text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="avatar" class="form-label">Avatar:</label>
+                    <input type="text" class="form-control" id="avatar" placeholder="Enter avatar" name="avatar">
+                    <div id="error-avatar" class="text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="trabajo" class="form-label">Trabajo:</label>
+                    <input type="text" class="form-control" id="trabajo" placeholder="Enter trabajo" name="trabajo">
+                    <div id="error-trabajo" class="text-danger"></div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="agregarPersonaje()">Crear</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+
+        </div>
+    </div>
+    </div>
+
     <script>
+
+        crearPaginacion = (total, paginaActual, elementosPorPagina) => {
+            console.log("********* Estoy en crear paginación")
+            console.log('Total:', total);
+            console.log('Página actual:', paginaActual);
+            console.log('Elementos por página:', elementosPorPagina);
+            const totalPaginas = Math.ceil(total / elementosPorPagina);
+            const paginacionContainer = document.getElementById('personajes-pagination');
+            paginacionContainer.innerHTML = '';
+
+            for(let i = 1; i <= totalPaginas; i++){
+                const li = document.createElement('li');
+                li.classList.add('page-item');
+                if(i === paginaActual){
+                    li.classList.add('active');
+                }
+                // agregar evento click a cada número de página
+                li.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    cambiarPagina(i);
+                });
+                const a = document.createElement('a');
+                a.classList.add('page-link');
+                a.href = '#';
+                a.innerText = i;
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    cambiarPagina(i);
+                });
+                li.appendChild(a);
+                paginacionContainer.appendChild(li);
+            }
+        };
+
+        var cantidad_elementos_por_pagina = 5;
+        // llamar a la paginación después de obtener el total de personajes
+        fetch('/app/personajes/count')
+            .then(response => response.json())
+            .then(data => {
+                crearPaginacion(data.total, 1, cantidad_elementos_por_pagina); // total, página actual, elementos por página
+            })
+            .catch(error => {
+                console.error('Error al obtener total de personajes:', error);
+            });
+
+        cambiarPagina = (pagina) => {
+            // cargarPersonajes(pagina);
+            console.log('Estoy en cambiar a página:', pagina);
+            fetch('/app/personajes/count')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Total', data.total);
+                console.log('Cantidad por página:', cantidad_elementos_por_pagina);
+                console.log('Página actual:', pagina);
+                crearPaginacion(data.total, pagina, cantidad_elementos_por_pagina); // total, página actual, elementos por página
+            
+                let desde = (pagina - 1) * cantidad_elementos_por_pagina;
+                fetch(`/app/personajes/${desde}/${cantidad_elementos_por_pagina}`) 
+                .then(response => response.json())
+                .then(personajes => {
+                    console.log('Personajes:', personajes);
+                    const personajesTableBody = document.getElementById('personajes-table-body');
+                    personajesTableBody.innerHTML = ''; // limpiar la tabla antes de agregar los nuevos personajes  
+                    personajes.forEach(personaje => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${personaje.id_personaje}</td>
+                            <td><img src="/img/avatar_${personaje.avatar}.png" alt="Avatar" width="50" height="50"></td>
+                            <td>${personaje.nombre}</td>
+                            <td>${personaje.titulo}</td>
+                            <td>${personaje.nivel}</td>
+                            <td>${personaje.dinero}</td>
+                        `;
+                        personajesTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener personajes:', error);
+                });
+
+            })
+            .catch(error => {
+                console.error('Error al obtener total de personajes:', error);
+            });
+        };
+
+        agregarPersonaje = () => {
+
+            // validar los campos antes de enviar
+            const nombre = document.getElementById('nombre').value;
+            const titulo = document.getElementById('titulo').value;
+            const nivel = parseInt(document.getElementById('nivel').value);
+            const dinero = parseInt(document.getElementById('dinero').value);
+            const avatar = parseInt(document.getElementById('avatar').value);
+            const id_trabajo = parseInt(document.getElementById('trabajo').value);
+
+            let hayError = false;
+            let mensajeError = [];
+            if(!nombre){
+                hayError = true;
+                document.getElementById('error-nombre').innerText = 'El campo "Nombre" es obligatorio.';
+                mensajeError.push('El campo "Nombre" es obligatorio.');
+            }
+            else{
+                document.getElementById('error-nombre').innerText = '';
+            }
+            if(!titulo){
+                hayError = true;
+                document.getElementById('error-titulo').innerText = 'El campo "Título" es obligatorio.';
+                mensajeError.push('El campo "Título" es obligatorio.');
+            }
+            else{
+                document.getElementById('error-titulo').innerText = '';
+            }
+            if(isNaN(nivel) || nivel < 1){
+                hayError = true;
+                document.getElementById('error-nivel').innerText = 'El campo "Nivel" debe ser un número entero positivo.';
+                mensajeError.push('El campo "Nivel" debe ser un número entero positivo.');
+            }
+            else{
+                document.getElementById('error-nivel').innerText = '';
+            }
+            if(isNaN(dinero) || dinero < 0){
+                hayError = true;
+                document.getElementById('error-dinero').innerText = 'El campo "Dinero" debe ser un número entero no negativo.';
+                mensajeError.push('El campo "Dinero" debe ser un número entero no negativo.');
+
+            }
+            else {
+                document.getElementById('error-dinero').innerText = '';
+            }
+            if(isNaN(avatar) || avatar < 1){
+                hayError = true;
+                document.getElementById('error-avatar').innerText = 'El campo "Avatar" debe ser un número entero positivo.';
+                mensajeError.push('El campo "Avatar" debe ser un número entero positivo.');
+            }
+            else {
+                document.getElementById('error-avatar').innerText = '';
+            }
+            if(isNaN(id_trabajo) || id_trabajo < 1){
+                hayError = true;
+                document.getElementById('error-trabajo').innerText = 'El campo "Trabajo" debe ser un número entero positivo.';
+                mensajeError.push('El campo "Trabajo" debe ser un número entero positivo.');
+            }
+            else {
+                document.getElementById('error-trabajo').innerText = '';
+            }
+
+            if(hayError){
+                return;
+            }
+
+
+
+            const nuevoPersonaje = {
+                nombre,
+                titulo,
+                nivel,
+                dinero,
+                avatar,
+                id_trabajo
+            }
+            
+            fetch('/app/personajes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nuevoPersonaje)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Personaje creado:', data);
+                alert('Personaje creado exitosamente');
+            })
+            .catch(error => {
+                console.error('Error al crear personaje:', error);
+                alert('Error al crear personaje');
+            });
+        };
 
         // ----- Subida de avatares sin cambiar de página -----
         document.getElementById('upload-form').addEventListener('submit', async function(event) {
@@ -161,7 +405,10 @@
             this.reset();
         });
 
-        fetch('/app/personajes') 
+        // datos de personajes a mostrar con la paginación
+        const desde = 0;
+        const total_paginas = 5;
+        fetch(`/app/personajes/${desde}/${total_paginas}`) 
             .then(response => response.json())
             .then(personajes => {
                 console.log('Personajes:', personajes);

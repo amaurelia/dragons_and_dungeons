@@ -3,6 +3,31 @@ const express = require('express');
 const router = express.Router();
 const { Personaje } = require('../models');
 
+router.get('/personajes/count', async (req, res) => {
+    try {
+        const count = await Personaje.count();
+        res.status(200).json({ total: count });
+    } catch (error) {
+        console.error('Error al obtener el total de personajes:', error);
+        res.status(500).json({ error: 'Error al obtener el total de personajes' });
+    }
+});
+
+
+router.get('/personajes/:desde/:cantidad', async (req, res) => {
+    try {
+        const { desde, cantidad } = req.params;
+        const personajes = await Personaje.findAll({
+            offset: parseInt(desde),
+            limit: parseInt(cantidad)
+        });
+        res.status(200).json(personajes);
+    } catch (error) {
+        console.error('Error al obtener personajes:', error);
+        res.status(500).json({ error: 'Error al obtener personajes' });
+    }
+});
+
 router.get('/personajes', async (req, res) => {
     try {
         const personajes = await Personaje.findAll();
