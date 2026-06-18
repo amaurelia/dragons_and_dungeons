@@ -14,3 +14,8 @@ body {
     display: flex;
     margin-left: 20px;
 }
+
+.centrado {
+    display: flex;
+    justify-content: space-evenly;
+}

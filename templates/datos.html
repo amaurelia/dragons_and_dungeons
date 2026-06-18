@@ -45,9 +45,10 @@
                     <!-- Aquí se llenarán los datos de los personajes -->
                 </tbody>
             </table>
-            <ul id="personajes-pagination" class="pagination">
-
-            </ul>
+            <div class="centrado">
+                <ul id="personajes-pagination" class="pagination">
+                </ul>
+            </div>
         </div>
 
         <div id="trabajos-container" class="fondo_blanco" style="display: none;">
@@ -159,17 +160,17 @@
             <form action="/action_page.php">
                 <div class="mb-3 mt-3">
                     <label for="nombre" class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="Enter nombre" name="nombre">
+                    <input onchange="agregarPersonaje('nombre')" type="text" class="form-control" id="nombre" placeholder="Enter nombre" name="nombre">
                     <div id="error-nombre" class="text-danger"></div>
                 </div>
                 <div class="mb-3">
                     <label for="titulo" class="form-label">Título:</label>
-                    <input type="text" class="form-control" id="titulo" placeholder="Enter título" name="titulo">
+                    <input onchange="agregarPersonaje('titulo')" type="text" class="form-control" id="titulo" placeholder="Enter título" name="titulo">
                     <div id="error-titulo" class="text-danger"></div>
                 </div>
                 <div class="mb-3">
                     <label for="nivel" class="form-label">Nivel:</label>
-                    <input type="number" class="form-control" id="nivel" placeholder="Enter nivel" name="nivel">
+                    <input onchange="agregarPersonaje('nivel')" type="number" class="form-control" id="nivel" placeholder="Enter nivel" name="nivel">
                     <div id="error-nivel" class="text-danger"></div>
                 </div>
                 <div class="mb-3">
@@ -179,15 +180,30 @@
                 </div>
                 <div class="mb-3">
                     <label for="avatar" class="form-label">Avatar:</label>
-                    <input type="text" class="form-control" id="avatar" placeholder="Enter avatar" name="avatar">
+                    <input onchange="agregarPersonaje('avatar')" type="text" class="form-control" id="avatar" placeholder="Enter avatar" name="avatar">
                     <div id="error-avatar" class="text-danger"></div>
+                    <img id="avatar-preview"src="/img/avatar_1.png" alt="Avatar de ejemplo" width="80" height="80" class="mt-2">
                 </div>
                 <div class="mb-3">
                     <label for="trabajo" class="form-label">Trabajo:</label>
-                    <input type="text" class="form-control" id="trabajo" placeholder="Enter trabajo" name="trabajo">
+                    <!--input  type="text" class="form-control"  placeholder="Enter trabajo" name="trabajo"-->
+                    <select onchange="agregarPersonaje('trabajo')"class="form-select" id="trabajo" aria-label="Default select example">
+                        
+                    </select>
                     <div id="error-trabajo" class="text-danger"></div>
                 </div>
             </form>
+        </div>
+
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+            <div id="notificacion-toast" class="toast border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2500">
+                <div id="notificacion-toast-header" class="toast-header bg-success text-white">
+                    <strong class="me-auto">Dragons & Dungeons</strong>
+                    <small id="notificacion-toast-time" class="text-white-50">justo ahora</small>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div id="notificacion-toast-body" class="toast-body bg-light">Personaje creado exitosamente.</div>
+            </div>
         </div>
 
         <!-- Modal footer -->
@@ -201,6 +217,172 @@
     </div>
 
     <script>
+
+        fetch('/app/trabajos', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('trabajo');
+            data.forEach(trabajo => {
+                const option = document.createElement('option');
+                option.value = trabajo.id_trabajo;
+                option.text = trabajo.nombre;
+                select.appendChild(option);
+            });
+        })
+
+        const mostrarToast = (mensaje, tipo = 'success') => {
+            const toastElement = document.getElementById('notificacion-toast');
+            const toastHeader = document.getElementById('notificacion-toast-header');
+            const toastBody = document.getElementById('notificacion-toast-body');
+            const toastTime = document.getElementById('notificacion-toast-time');
+
+            toastHeader.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'text-dark', 'text-white');
+            toastBody.classList.remove('bg-light', 'bg-white');
+
+            if(tipo === 'error'){
+                toastHeader.classList.add('bg-danger', 'text-white');
+            }
+            else{
+                toastHeader.classList.add('bg-success', 'text-white');
+            }
+
+            toastBody.classList.add('bg-light');
+            toastBody.innerText = mensaje;
+            toastTime.innerText = 'justo ahora';
+
+            const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
+            toast.show();
+        };
+
+        agregarPersonaje = (llave='ninguna') => {
+
+            console.log("llave es", llave)
+
+            // validar los campos antes de enviar
+            const nombre = document.getElementById('nombre').value;
+            const titulo = document.getElementById('titulo').value;
+            const nivel = parseInt(document.getElementById('nivel').value);
+            const dinero = parseInt(document.getElementById('dinero').value);
+            const avatar = parseInt(document.getElementById('avatar').value);
+            // actualizar la imagen del avatar escogido
+            const imagenAvatar = document.querySelector('#avatar-preview');
+            if(!isNaN(avatar) && avatar > 0){
+                imagenAvatar.src = `/img/avatar_${avatar}.png`;
+            }
+            else {
+                imagenAvatar.src = '/img/avatar_1.png';
+                document.getElementById('avatar').value = '1';
+            }
+            const id_trabajo = parseInt(document.getElementById('trabajo').value);
+
+            let hayError = false;
+            let mensajeError = [];
+            if(!nombre){
+                hayError = true;
+                if(llave === 'nombre' || llave === 'ninguna'){
+                    document.getElementById('error-nombre').innerText = 'El campo "Nombre" es obligatorio.';
+                }
+                mensajeError.push('El campo "Nombre" es obligatorio.');
+            }
+            else{
+                document.getElementById('error-nombre').innerText = '';
+            }
+            if(!titulo){
+                hayError = true;
+                if(llave === 'titulo' || llave === 'ninguna'){
+                    document.getElementById('error-titulo').innerText = 'El campo "Título" es obligatorio.';
+                }
+                mensajeError.push('El campo "Título" es obligatorio.');
+            }
+            else{
+                document.getElementById('error-titulo').innerText = '';
+            }
+            if(isNaN(nivel) || nivel < 1){
+                hayError = true;
+                if(llave === 'nivel' || llave === 'ninguna'){
+                    document.getElementById('error-nivel').innerText = 'El campo "Nivel" debe ser un número entero positivo.';
+                }
+                mensajeError.push('El campo "Nivel" debe ser un número entero positivo.');
+            }
+            else{
+                document.getElementById('error-nivel').innerText = '';
+            }
+            if(isNaN(dinero) || dinero < 0){
+                hayError = true;
+                if(llave === 'dinero' || llave === 'ninguna'){
+                    document.getElementById('error-dinero').innerText = 'El campo "Dinero" debe ser un número entero no negativo.';
+                }
+                mensajeError.push('El campo "Dinero" debe ser un número entero no negativo.');
+
+            }
+            else {
+                document.getElementById('error-dinero').innerText = '';
+            }
+            if(isNaN(avatar) || avatar < 1){
+                hayError = true;
+                if(llave === 'avatar' || llave === 'ninguna'){
+                    document.getElementById('error-avatar').innerText = 'El campo "Avatar" debe ser un número entero positivo.';
+                }
+                mensajeError.push('El campo "Avatar" debe ser un número entero positivo.');
+            }
+            else {
+                document.getElementById('error-avatar').innerText = '';
+            }
+            if(isNaN(id_trabajo) || id_trabajo < 1){
+                hayError = true;
+                if(llave === 'trabajo' || llave === 'ninguna'){
+                    document.getElementById('error-trabajo').innerText = 'El campo "Trabajo" debe ser un número entero positivo.';
+                }
+                mensajeError.push('El campo "Trabajo" debe ser un número entero positivo.');
+            }
+            else {
+                document.getElementById('error-trabajo').innerText = '';
+            }
+
+            if(hayError){
+                return;
+            }
+
+            const nuevoPersonaje = {
+                nombre,
+                titulo,
+                nivel,
+                dinero,
+                avatar,
+                id_trabajo
+            }
+            
+            if(llave === 'ninguna'){
+                
+                fetch('/app/personajes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(nuevoPersonaje)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Personaje creado:', data);
+                    document.getElementById('nombre').value = '';
+                    document.getElementById('titulo').value = '';
+                    document.getElementById('nivel').value = '';
+                    document.getElementById('dinero').value = '';
+                    document.getElementById('avatar').value = '1';
+                    document.getElementById('trabajo').value = '';
+                    mostrarToast('Personaje creado exitosamente', 'success');
+                })
+                .catch(error => {
+                    console.error('Error al crear personaje:', error);
+                    mostrarToast('Error al crear personaje', 'error');
+                });
+            }
+        };
 
         crearPaginacion = (total, paginaActual, elementosPorPagina) => {
             console.log("********* Estoy en crear paginación")
@@ -287,100 +469,6 @@
             });
         };
 
-        agregarPersonaje = () => {
-
-            // validar los campos antes de enviar
-            const nombre = document.getElementById('nombre').value;
-            const titulo = document.getElementById('titulo').value;
-            const nivel = parseInt(document.getElementById('nivel').value);
-            const dinero = parseInt(document.getElementById('dinero').value);
-            const avatar = parseInt(document.getElementById('avatar').value);
-            const id_trabajo = parseInt(document.getElementById('trabajo').value);
-
-            let hayError = false;
-            let mensajeError = [];
-            if(!nombre){
-                hayError = true;
-                document.getElementById('error-nombre').innerText = 'El campo "Nombre" es obligatorio.';
-                mensajeError.push('El campo "Nombre" es obligatorio.');
-            }
-            else{
-                document.getElementById('error-nombre').innerText = '';
-            }
-            if(!titulo){
-                hayError = true;
-                document.getElementById('error-titulo').innerText = 'El campo "Título" es obligatorio.';
-                mensajeError.push('El campo "Título" es obligatorio.');
-            }
-            else{
-                document.getElementById('error-titulo').innerText = '';
-            }
-            if(isNaN(nivel) || nivel < 1){
-                hayError = true;
-                document.getElementById('error-nivel').innerText = 'El campo "Nivel" debe ser un número entero positivo.';
-                mensajeError.push('El campo "Nivel" debe ser un número entero positivo.');
-            }
-            else{
-                document.getElementById('error-nivel').innerText = '';
-            }
-            if(isNaN(dinero) || dinero < 0){
-                hayError = true;
-                document.getElementById('error-dinero').innerText = 'El campo "Dinero" debe ser un número entero no negativo.';
-                mensajeError.push('El campo "Dinero" debe ser un número entero no negativo.');
-
-            }
-            else {
-                document.getElementById('error-dinero').innerText = '';
-            }
-            if(isNaN(avatar) || avatar < 1){
-                hayError = true;
-                document.getElementById('error-avatar').innerText = 'El campo "Avatar" debe ser un número entero positivo.';
-                mensajeError.push('El campo "Avatar" debe ser un número entero positivo.');
-            }
-            else {
-                document.getElementById('error-avatar').innerText = '';
-            }
-            if(isNaN(id_trabajo) || id_trabajo < 1){
-                hayError = true;
-                document.getElementById('error-trabajo').innerText = 'El campo "Trabajo" debe ser un número entero positivo.';
-                mensajeError.push('El campo "Trabajo" debe ser un número entero positivo.');
-            }
-            else {
-                document.getElementById('error-trabajo').innerText = '';
-            }
-
-            if(hayError){
-                return;
-            }
-
-
-
-            const nuevoPersonaje = {
-                nombre,
-                titulo,
-                nivel,
-                dinero,
-                avatar,
-                id_trabajo
-            }
-            
-            fetch('/app/personajes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoPersonaje)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Personaje creado:', data);
-                alert('Personaje creado exitosamente');
-            })
-            .catch(error => {
-                console.error('Error al crear personaje:', error);
-                alert('Error al crear personaje');
-            });
-        };
 
         // ----- Subida de avatares sin cambiar de página -----
         document.getElementById('upload-form').addEventListener('submit', async function(event) {
